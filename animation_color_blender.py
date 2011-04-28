@@ -24,12 +24,12 @@ bl_info = {
     "version": (0, 2, ),
     "blender": (2, 5, 7),
     "api": 36373,
-    "category": "Object",
     "location": "View3D > Tools",
-    "description": "Set a keyframe for the material diffuse color spaced out over a specified number of frames within the timeline."
+    "description": "Set a keyframe for the material diffuse color spaced out over a specified number of frames within the timeline.",
     "warning": "Still under development, bug reports appreciated",
     "wiki_url": "",
-    "tracker_url": ""
+    "tracker_url": "",
+    'category': 'Animation'
    }
 
 '''
