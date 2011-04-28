@@ -1,0 +1,3 @@
+Simple script to set a keyframe for the material diffuse color spaced out over a specified number of frames within the timeline.
+To install, copy the file animation_color_blender.py to your scripts/addons folder. Open user preferences and activate Color Blender under "animation"
+To use select your object(s) and open the tool panel. Then select a color palette, the palette colors can be modified. Choose the number frames between each keyframe and click Run Color Blender.
