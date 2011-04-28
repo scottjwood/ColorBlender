@@ -58,7 +58,7 @@ class mmProps(bpy.types.PropertyGroup):
                 ("EARTH", "Earth", "Use Earth colors"),
                 ("GREENBLUE", "Green to Blue", "Use Green to Blue colors")),
         description="Choose which type of colors the materials uses",
-        default="RANDOM")
+        default="BRIGHT")
     
     # Custom property for how many keyframes to skip
     mmSkip = bpy.props.IntProperty(name="frames", min=1, max=500, default=20, description="Number of frames between each keyframes")
@@ -159,6 +159,8 @@ class mmPanel(bpy.types.Panel):
             row.prop(colorProp, 'greenblueColor1')
             row.prop(colorProp, 'greenblueColor2')
             row.prop(colorProp, 'greenblueColor3')
+        elif colorProp.mmColors == 'RANDOM':
+            row = layout.row()
         # Show rest of menu
         col = layout.column()
         col.label('Keyframe every')
@@ -183,20 +185,14 @@ class OBJECT_OT_materialChango(bpy.types.Operator):
         colorProp = bpy.context.window_manager.colorblender # properties panel
         colorObjects = bpy.context.selected_objects
         
-        # Set a variable to count through a list  in sequential order
-        colorLoop = 0
         # Set color lists
         brightColors  = [colorProp.brightColor1, colorProp.brightColor2, colorProp.brightColor3, colorProp.brightColor4]
+        bwColors = [colorProp.bwColor1, colorProp.bwColor2]
+        customColors = [colorProp.mmColor1, colorProp.mmColor2, colorProp.mmColor3, colorProp.mmColor4, colorProp.mmColor5, colorProp.mmColor6, colorProp.mmColor7, colorProp.mmColor8]
+        earthColors = [colorProp.earthColor1, colorProp.earthColor2, colorProp.earthColor3, colorProp.earthColor4, colorProp.earthColor5]
+        greenblueColors = [colorProp.greenblueColor1, colorProp.greenblueColor2, colorProp.greenblueColor3]
         
         colorList = colorProp.mmColors
-        
-        def colorSeq(iterable):
-            if colorProp.mmBoolRandom != True:
-                for colorNum in colorList:
-                    print(colorLoop)
-
-            else:
-                print('random')
         
         # Go through each selected object and run the operator
         for i in colorObjects:
@@ -216,7 +212,6 @@ class OBJECT_OT_materialChango(bpy.types.Operator):
             mat = theObj.data.materials[0] 
 
             # Numbers of frames to skip between keyframes
-            # Get property from panel
             skip = colorProp.mmSkip
 
             # Random material function
@@ -225,28 +220,23 @@ class OBJECT_OT_materialChango(bpy.types.Operator):
                     mat.diffuse_color[crazyNumber] = random.random()
             
             def colorblenderCustom():
-                customColors = [colorProp.mmColor1, colorProp.mmColor2, colorProp.mmColor3, colorProp.mmColor4, colorProp.mmColor5, colorProp.mmColor6, colorProp.mmColor7, colorProp.mmColor8]
                 mat.diffuse_color = random.choice(customColors)
                 
             # Black and white color        
             def colorblenderBW():
-                bwColors = [colorProp.bwColor1, colorProp.bwColor2]
                 mat.diffuse_color = random.choice(bwColors)
             
             # Bright colors
             def colorblenderBright():
-                # brightColors  = [colorProp.brightColor1, colorProp.brightColor2, colorProp.brightColor3, colorProp.brightColor4]
                 mat.diffuse_color = random.choice(brightColors)
                 
             # Earth Tones
             def colorblenderEarth():
-                earthColors = [colorProp.earthColor1, colorProp.earthColor2, colorProp.earthColor3, colorProp.earthColor4, colorProp.earthColor5]
                 mat.diffuse_color = random.choice(earthColors)
                 
             # Green to Blue Tones
             def colorblenderGreenBlue():
-                earthColors = [colorProp.greenblueColor1, colorProp.greenblueColor2, colorProp.greenblueColor3]
-                mat.diffuse_color = random.choice(earthColors)
+                mat.diffuse_color = random.choice(greenblueColors)
              
             # define frame start/end variables
             scn = bpy.context.scene       
@@ -278,7 +268,6 @@ class OBJECT_OT_materialChango(bpy.types.Operator):
                 
                 # Increase frame number
                 start += skip
-            colorLoop += 1
         return{'FINISHED'}
     
 ###### This clears the keyframes ######
