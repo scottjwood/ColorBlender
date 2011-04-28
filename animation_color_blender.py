@@ -58,7 +58,8 @@ class mmProps(bpy.types.PropertyGroup):
                 ("EARTH", "Earth", "Use Earth colors"),
                 ("GREENBLUE", "Green to Blue", "Use Green to Blue colors")),
         description="Choose which type of colors the materials uses",
-        default="BRIGHT")
+        default="BRIGHT",
+        name="Define a color palette")
     
     # Custom property for how many keyframes to skip
     mmSkip = bpy.props.IntProperty(name="frames", min=1, max=500, default=20, description="Number of frames between each keyframes")
@@ -120,7 +121,7 @@ class mmPanel(bpy.types.Panel):
             return
         
         # Box for Color Blender
-        layout.label("Color options")
+        layout.label("Color palette")
         layout.prop(colorProp, 'mmColors')
         # Show Custom Colors if selected
         if colorProp.mmColors == 'CUSTOM':
